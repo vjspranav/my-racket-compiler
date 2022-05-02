@@ -4,8 +4,7 @@
 
 (define (rco-atm e)
   (match e
-    [(Int n) (values (Int n) '())]
-    [(Var x) (values (Var x) '())]
+    [(or (Int x) (Var x)) (values e '())]
     [(Let x e body)
      (define-values (atm-body atm-body-env) (rco-atm body))
      ; Explicitly convert new cons into list and appned ad follows
@@ -19,8 +18,7 @@
 
 (define (rco-exp e)
   (match e
-    [(Int n) (Int n)]
-    [(Var x) (Var x)]
+    [(or (Int x) (Var x)) e]
     [(Let x e body) (Let x (rco-exp e) (rco-exp body))]
     [(Prim op es)
      (define-values (atm-e atm-e-env) (for/lists (l1 l2) ([e es]) (rco-atm e)))
