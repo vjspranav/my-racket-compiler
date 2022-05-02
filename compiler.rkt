@@ -4,12 +4,14 @@
 (require racket/fixnum)
 (require "interp-Lint.rkt")
 (require "interp-Lvar.rkt")
+(require "interp-Cvar.rkt")
 (require "utilities.rkt")
 (provide (all-defined-out))
 
 ; Passes
 (require "passes/uniquify.rkt")
 (require "passes/remove-complex-operations.rkt")
+(require "passes/explicate-control.rkt")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Lint examples
@@ -51,10 +53,6 @@
   (match p
     [(Program info e) (Program info (pe-exp e))]))
 
-;; explicate-control : R1 -> C0
-(define (explicate-control p)
-  (error "TODO: code goes here (explicate-control)"))
-
 ;; select-instructions : C0 -> pseudo-x86
 (define (select-instructions p)
   (error "TODO: code goes here (select-instructions)"))
@@ -78,7 +76,7 @@
   `(("uniquify" ,uniquify ,interp-Lvar)
     ;; Uncomment the following passes as you finish them.
     ("remove complex opera*" ,remove-complex-opera* ,interp-Lvar)
-    ;; ("explicate control" ,explicate-control ,interp-Cvar)
+    ("explicate control" ,explicate-control ,interp-Cvar)
     ;; ("instruction selection" ,select-instructions ,interp-x86-0)
     ;; ("assign homes" ,assign-homes ,interp-x86-0)
     ;; ("patch instructions" ,patch-instructions ,interp-x86-0)
