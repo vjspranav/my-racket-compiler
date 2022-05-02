@@ -11,3 +11,4 @@
 compiled
 *.dot
 log*
+*gch
